@@ -1,0 +1,94 @@
+/* Fondo general */
+body {
+    background-color: #ffe6f0; /* rosado claro */
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Barra de navegación */
+.navbar {
+    background-color: #ff1a75 !important; /* fucsia */
+}
+
+/* Botones principales */
+.btn-primary {
+    background-color: #ff66b3;
+    border-color: #ff66b3;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #ff4da6;
+    border-color: #ff4da6;
+    color: white;
+}
+
+/*  Botones secundarios (outline claros) */
+.btn-outline-light {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    transition: 0.2s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: #ffffff33;
+    transform: translateY(-2px);
+}
+
+/* Estilo de tarjetas */
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-weight: bold;
+    color: #333;
+}
+
+/*  Iconos */
+.icon-large {
+    font-size: 1.8rem;
+    color: white;
+}
+
+/*  Formularios (login/registro) */
+form .form-control {
+    border-radius: 0.6rem;
+    border: 1px solid #ffd1e8;
+}
+
+form .form-control:focus {
+    border-color: #ff66b3;
+    box-shadow: 0 0 4px rgba(255, 102, 179, 0.6);
+}
+
+/*  Tarjetas de login/registro */
+.card-auth {
+    background-color: white;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+/*  Navbar íconos alineados */
+.navbar-icons .btn {
+    font-size: 1.5rem;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.navbar-icons .btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
