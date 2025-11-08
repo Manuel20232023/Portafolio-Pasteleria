@@ -1,0 +1,54 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% block title %}Productos - Sweet Blessing{% endblock %}
+
+{% block extra_head %}
+<style>
+  .cat-img { height: 180px; object-fit: cover; }
+  .cat-card:hover { transform: translateY(-2px); transition: transform .15s ease-in-out; }
+  .promo-card { background: #fff0f5; border: 1px solid #ffb6c1; }
+  .promo-card h5 { color: #ff1a75; }
+</style>
+{% endblock %}
+
+{% block content %}
+  <h2 class="mb-3">Elige una categoría</h2>
+  <div class="row g-3 mb-5">
+    {% for slug, nombre in categorias.items %}
+      <div class="col-md-4">
+        <a class="text-decoration-none" href="{% url 'tienda:productos_categoria' slug %}">
+          <div class="card h-100 shadow-sm cat-card">
+            <img
+              src="{% static 'tienda/img/categorias/' %}{{ slug }}.jpg"
+              class="card-img-top cat-img"
+              alt="{{ nombre }}"
+            >
+            <div class="card-body text-center">
+              <h5 class="mb-0">{{ nombre }}</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <p>No hay categorías disponibles.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Sección de Promociones -->
+  <h3 class="mb-3 text-center">🎉 Promociones Activas 🎉</h3>
+  <div class="row g-3">
+    {% for promo in promociones %}
+      <div class="col-md-4">
+        <div class="card promo-card shadow-sm h-100">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ promo.nombre }}</h5>
+            <p class="card-text">Descuento: <strong>{{ promo.descuento }}</strong></p>
+            <p class="text-muted mb-0">Vigencia: {{ promo.vigencia }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center">No hay promociones disponibles en este momento.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
