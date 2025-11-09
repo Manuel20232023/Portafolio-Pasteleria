@@ -28,12 +28,12 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark px-3">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'dashboard' %}">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'adminpanel:dashboard' %}">
         <img src="{% static 'adminpanel/images/logo.png' %}" alt="Logo Pastelería" width="50" height="50" class="me-2">
         Sweet Blessing Admin
     </a>
     <div class="ms-auto d-flex">
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
+        <a href="{% url 'adminpanel:dashboard' %}" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
         <a href="{% url 'tienda:salir' %}" class="btn btn-outline-light" style="font-size: 1.5rem;" title="Cerrar sesión">
         <i class="bi bi-box-arrow-right"></i>
         </a>
@@ -64,16 +64,21 @@
         <tbody>
             {% for cliente in clientes %}
             <tr>
-                <td>{{ cliente.nombre }}</td>
-                <td>{{ cliente.correo }}</td>
-                <td>{{ cliente.telefono }}</td>
-                <td>{{ cliente.direccion }}</td>
-                <td>{{ cliente.fecha_registro }}</td>
-                <td>{{ cliente.pedidos }}</td>
+                <td>{{ cliente.first_name }} {{ cliente.last_name }} ({{ cliente.username }})</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.perfil.telefono|default:"-" }}</td>
+                <td>{{ cliente.perfil.direccion|default:"-" }}, {{ cliente.perfil.ciudad|default:"" }}</td>
+                <td>{{ cliente.date_joined|date:"d/m/Y" }}</td>
+                <td class="text-center">
+                    <span class="badge bg-primary rounded-pill">{{ cliente.total_pedidos|default:"0" }}</span>
+                </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" class="text-center">No hay clientes registrados</td>
+                <td colspan="6" class="text-center py-4">
+                    <i class="bi bi-people text-muted fs-1 d-block mb-2"></i>
+                    No se encontraron clientes registrados.
+                </td>
             </tr>
             {% endfor %}
         </tbody>

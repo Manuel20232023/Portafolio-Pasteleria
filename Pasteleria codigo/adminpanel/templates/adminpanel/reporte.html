@@ -21,12 +21,12 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark px-3">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'dashboard' %}">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'adminpanel:dashboard' %}">
         <img src="{% static 'adminpanel/images/logo.png' %}" alt="Logo Pastelería" width="50" height="50" class="me-2">
         Sweet Blessing Admin
     </a>
     <div class="ms-auto d-flex">
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
+        <a href="{% url 'adminpanel:dashboard' %}"" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
         <a href="{% url 'tienda:salir' %}" class="btn btn-outline-light" style="font-size: 1.5rem;" title="Cerrar sesión">
         <i class="bi bi-box-arrow-right"></i>
         </a>
@@ -67,8 +67,8 @@
 
             {% if tipo_reporte == "ventas" %}
             <div class="mb-3">
-                <a href="{% url 'descargar_reporte' %}?tipo=ventas&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}" class="btn btn-success me-2">Descargar PDF</a>
-                <a href="{% url 'descargar_reporte_excel' %}?tipo=ventas&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}" class="btn btn-success">Descargar Excel</a>
+                <a href="{% url 'adminpanel:descargar_reporte' %}?tipo=ventas&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}" class="btn btn-success me-2">Descargar PDF</a>
+                <a href="{% url 'adminpanel:descargar_reporte_excel' %}?tipo=ventas&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}" class="btn btn-success">Descargar Excel</a>
             </div>
 
             <table class="table table-striped">
@@ -81,14 +81,13 @@
                         <th>Total ($)</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for item in reporte %}
+               <tbody>
+                    {% for pedido in reporte %}
                     <tr>
-                        <td>{{ item.fecha }}</td>
-                        <td>{{ item.cliente }}</td>
-                        <td>{{ item.producto }}</td>
-                        <td>{{ item.cantidad }}</td>
-                        <td>{{ item.total }}</td>
+                        <td>{{ pedido.fecha|date:"d/m/Y H:i" }}</td>
+                        <td>{{ pedido.usuario.username }}</td>
+                        <td>{{ pedido.detalles.count }} productos</td> <td>${{ pedido.total }}</td>
+                        <td>{{ pedido.get_estado_display }}</td>
                     </tr>
                     {% empty %}
                     <tr>
@@ -119,24 +118,23 @@
 
             {% if tipo_reporte == "productos" %}
             <div class="mb-3">
-                <a href="{% url 'descargar_reporte' %}?tipo={{ tipo_reporte }}&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}&orden={{ orden }}" class="btn btn-success me-2">Descargar PDF</a>
-                <a href="{% url 'descargar_reporte_excel' %}?tipo={{ tipo_reporte }}&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}&orden={{ orden }}" class="btn btn-success">Descargar Excel</a>
+                <a href="{% url 'adminpanel:descargar_reporte' %}?tipo={{ tipo_reporte }}&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}&orden={{ orden }}" class="btn btn-success me-2">Descargar PDF</a>
+                <a href="{% url 'adminpanel:descargar_reporte_excel' %}?tipo={{ tipo_reporte }}&desde={{ fecha_desde }}&hasta={{ fecha_hasta }}&orden={{ orden }}" class="btn btn-success">Descargar Excel</a>
             </div>
-
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Producto</th>
                         <th>Cantidad Vendida</th>
-                        <th>Total ($)</th>
+                        <th>Total Recaudado ($)</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in reporte %}
                     <tr>
                         <td>{{ item.producto__nombre }}</td>
-                        <td>{{ item.cantidad }}</td>
-                        <td>{{ item.total }}</td>
+                        <td>{{ item.cantidad_total }}</td>
+                        <td>${{ item.total_recaudado }}</td>
                     </tr>
                     {% empty %}
                     <tr>

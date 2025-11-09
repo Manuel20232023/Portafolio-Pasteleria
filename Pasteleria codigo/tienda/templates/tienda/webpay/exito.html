@@ -1,0 +1,14 @@
+{% extends 'tienda/base_store.html' %}
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="card shadow p-5">
+        <h1 class="text-success mb-4">¡Pago Exitoso! 🧁</h1>
+        <p class="fs-4">Tu pedido <strong>#{{ pedido.id }}</strong> ha sido confirmado.</p>
+        <p>Monto pagado: ${{ response.amount }}</p>
+        <p>Código de autorización: {{ response.authorization_code }}</p>
+        <hr>
+        <p>Gracias por tu compra en Sweet Blessing.</p>
+        <a href="{% url 'tienda:home' %}" class="btn btn-primary mt-3">Volver al Inicio</a>
+    </div>
+</div>
+{% endblock %}

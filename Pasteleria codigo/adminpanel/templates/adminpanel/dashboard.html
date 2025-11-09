@@ -47,19 +47,18 @@
 
 <body>
 
-    <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark px-3">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'dashboard' %}">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'adminpanel:dashboard' %}">
         <img src="{% static 'adminpanel/images/logo.png' %}" alt="Logo Pastelería" width="50" height="50" class="me-2">
         Sweet Blessing Admin
     </a>
     <div class="ms-auto d-flex">
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
+        <a href="{% url 'adminpanel:dashboard' %}" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
         <a href="{% url 'tienda:salir' %}" class="btn btn-outline-light" style="font-size: 1.5rem;" title="Cerrar sesión">
         <i class="bi bi-box-arrow-right"></i>
         </a>
     </div>
-    </nav>
+</nav>
 
     <!-- Contenido principal -->
     <div class="container text-center mt-5">
@@ -74,7 +73,7 @@
                     </div>
                     <img src="{% static 'adminpanel/images/reportes.jpg' %}" class="card-img-top p-4 img-fluid" style="max-height:200px; object-fit:contain;" alt="Reportes">
                     <div class="card-body">
-                        <a href="{% url 'reportes' %}" class="btn btn-rosado">Ver Reportes</a>
+                        <a href="{% url 'adminpanel:reportes' %}" class="btn btn-rosado">Ver Reportes</a>
                     </div>
                 </div>
             </div>
@@ -87,7 +86,7 @@
                     </div>
                     <img src="{% static 'adminpanel/images/pedidos.webp' %}" class="card-img-top p-4 img-fluid" style="max-height:200px; object-fit:contain;" alt="Pedidos">
                     <div class="card-body">
-                        <a href="{% url 'pedidos' %}" class="btn btn-rosado">Ver Pedidos</a>
+                        <a href="{% url 'adminpanel:pedidos' %}" class="btn btn-rosado">Ver Pedidos</a>
                     </div>
                 </div>
             </div>
@@ -100,7 +99,7 @@
                     </div>
                     <img src="{% static 'adminpanel/images/productos.jpg' %}" class="card-img-top p-4 img-fluid" style="max-height:200px; object-fit:contain;" alt="Productos">
                     <div class="card-body">
-                        <a href="{% url 'productos' %}" class="btn btn-rosado">Gestionar Productos</a>
+                        <a href="{% url 'adminpanel:productos' %}" class="btn btn-rosado">Gestionar Productos</a>
                     </div>
                 </div>
             </div>
@@ -113,7 +112,7 @@
                     </div>
                     <img src="{% static 'adminpanel/images/clientes.jpg' %}" class="card-img-top p-4 img-fluid" style="max-height:200px; object-fit:contain;" alt="Clientes">
                     <div class="card-body">
-                        <a href="{% url 'clientes' %}" class="btn btn-rosado">Ver Clientes</a>
+                        <a href="{% url 'adminpanel:clientes' %}" class="btn btn-rosado">Ver Clientes</a>
                     </div>
                 </div>
             </div>

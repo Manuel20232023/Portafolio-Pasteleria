@@ -86,7 +86,13 @@ LOGIN_URL = 'tienda:login'
 LOGIN_REDIRECT_URL = 'tienda:home'
 
 # Para probar restablecer contraseña en consola (desarrollo)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # O el servidor que uses (ej: smtp.office365.com)
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'choantara13@gmail.com'  # <-- TU CORREO REAL AQUÍ
+EMAIL_HOST_PASSWORD = 'hawu dnup crun djbs'      # <-- TU CONTRASEÑA DE APLICACIÓN AQUÍ
+DEFAULT_FROM_EMAIL = 'Sweet Blessing <tucorreo@gmail.com>'
 
 WSGI_APPLICATION = 'pasteleria.wsgi.application'
 
@@ -120,17 +126,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTHENTICATION_BACKENDS = [
+    'tienda.backends.EmailBackend',  # Nuestro nuevo backend por email
+    'django.contrib.auth.backends.ModelBackend',  # El backend por defecto (como respaldo)
+]
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-cl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago' 
 
 USE_I18N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -142,3 +149,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

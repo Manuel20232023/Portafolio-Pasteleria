@@ -19,12 +19,12 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark px-3">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'dashboard' %}">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'adminpanel:dashboard' %}">
         <img src="{% static 'adminpanel/images/logo.png' %}" alt="Logo Pastelería" width="50" height="50" class="me-2">
         Sweet Blessing Admin
     </a>
     <div class="ms-auto d-flex">
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
+        <a href="{% url 'adminpanel:dashboard' %}" class="btn btn-outline-light me-2"><i class="bi bi-house"></i></a>
         <a href="{% url 'tienda:salir' %}" class="btn btn-outline-light" style="font-size: 1.5rem;" title="Cerrar sesión">
         <i class="bi bi-box-arrow-right"></i>
         </a>
@@ -82,14 +82,20 @@
                 <tbody>
                     {% for pedido in pedidos_retiro %}
                     <tr>
-                        <td>{{ pedido.fecha }}</td>
-                        <td>{{ pedido.cliente }}</td>
-                        <td>{{ pedido.productos }}</td>
-                        <td>{{ pedido.total }}</td>
-                        <td>{{ pedido.hora_retiro }}</td>
+                        <td>{{ pedido.fecha|date:"d/m/Y H:i" }}</td>
+                        <td>{{ pedido.usuario.get_full_name|default:pedido.usuario.username }}</td>
+                        <td>
+                            <ul class="list-unstyled mb-0 small">
+                            {% for detalle in pedido.detalles.all %}
+                                <li>{{ detalle.cantidad }}x {{ detalle.producto.nombre }}</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                        <td>${{ pedido.total }}</td>
+                        <td>{{ pedido.fecha|time:"H:i" }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="5" class="text-center">No hay pedidos de retiro</td></tr>
+                    <tr><td colspan="5" class="text-center py-3">No hay pedidos de retiro.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -125,14 +131,20 @@
                 <tbody>
                     {% for pedido in pedidos_despacho %}
                     <tr>
-                        <td>{{ pedido.fecha }}</td>
-                        <td>{{ pedido.cliente }}</td>
-                        <td>{{ pedido.direccion }}</td>
-                        <td>{{ pedido.productos }}</td>
-                        <td>{{ pedido.total }}</td>
+                        <td>{{ pedido.fecha|date:"d/m/Y H:i" }}</td>
+                        <td>{{ pedido.usuario.get_full_name|default:pedido.usuario.username }}</td>
+                        <td>{{ pedido.direccion|default:"-" }}</td>
+                        <td>
+                            <ul class="list-unstyled mb-0 small">
+                            {% for detalle in pedido.detalles.all %}
+                                <li>{{ detalle.cantidad }}x {{ detalle.producto.nombre }}</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                        <td>${{ pedido.total }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="5" class="text-center">No hay pedidos de despacho</td></tr>
+                    <tr><td colspan="5" class="text-center py-3">No hay pedidos de despacho.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

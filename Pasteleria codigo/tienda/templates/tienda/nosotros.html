@@ -1,9 +1,74 @@
 {% extends 'tienda/base_store.html' %}
 {% load static %}
 {% block title %}Nosotros - Sweet Blessing{% endblock %}
+
 {% block content %}
-  <div class="bg-white p-4 rounded shadow-sm">
-    <h2>Sobre nosotros</h2>
-    <p>Somos una pastelería artesanal... (tu texto aquí)</p>
-  </div>
+<div class="container mt-5 mb-5">
+    <div class="bg-white p-5 rounded shadow-lg">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <h1 class="fw-bold mb-4" style="color: #ff1a75;">Nuestra Historia Dulce</h1>
+                
+                <p class="lead text-dark">
+                    Detrás de cada creación de Sweet Blessing está el corazón y la experiencia de 
+                    <strong>Dennisse Rodríguez</strong>, gastrónoma profesional titulada de Duoc UC.
+                </p>
+                
+                <p style="line-height: 1.8;">
+                    Desde 2018, nos hemos dedicado a endulzar la vida de nuestra comunidad con pastelería 
+                    artesanal de alta calidad. Aunque comenzamos con un pequeño local físico, los desafíos 
+                    del 2020 nos impulsaron a reinventarnos, encontrando en las redes sociales y las ferias 
+                    comunitarias un nuevo hogar donde el "boca a boca" de nuestros clientes felices ha sido 
+                    nuestro mejor ingrediente.
+                </p>
+                
+                <p style="line-height: 1.8;">
+                    Hoy, damos un nuevo gran paso con esta plataforma web. Queremos que Sweet Blessing sea 
+                    más accesible para ti, facilitando tus pedidos y mostrándote nuestro catálogo completo 
+                    de una forma ordenada y profesional, sin perder la calidez que nos caracteriza.
+                </p>
+
+                <p class="fw-bold mt-4" style="color: #ff66b3;">
+                    ¡Gracias por ser parte de nuestra historia y dejarnos ser parte de tus celebraciones!
+                </p>
+            </div>
+
+            <div class="col-lg-5 text-center">
+                <div class="p-3 bg-light rounded-3 shadow-sm border" style="border-color: #ffe6f0 !important;">
+                    <img src="{% static 'tienda/img/dennisse.jpg' %}" 
+                         alt="Dennisse Rodríguez - Fundadora" 
+                         class="img-fluid rounded shadow-sm w-100"
+                         style="object-fit: cover; min-height: 300px; max-height: 500px;"
+                         onerror="this.src='https://via.placeholder.com/400x500/ff66b3/ffffff?text=Foto+de+Dennisse';">
+                    
+                    <div class="mt-3">
+                        <h5 class="mb-0 fw-bold" style="color: #ff1a75;">Dennisse Rodríguez</h5>
+                        <small class="text-muted">Fundadora & Pastelera Artesanal</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5" style="color: #ff66b3;">
+
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center">
+                <span class="me-3 fs-5 text-muted">Síguenos para más dulzura:</span>
+                
+                <a href="https://www.facebook.com/" target="_blank" class="text-decoration-none me-3 social-icon" title="Síguenos en Facebook">
+                    <i class="bi bi-facebook" style="font-size: 2.5rem; color: #1877F2;"></i>
+                </a>
+                
+                <a href="https://www.instagram.com/" target="_blank" class="text-decoration-none social-icon" title="Síguenos en Instagram">
+                    <i class="bi bi-instagram" style="font-size: 2.5rem; color: #E4405F;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .social-icon { transition: transform 0.2s; }
+    .social-icon:hover { transform: scale(1.1); }
+</style>
 {% endblock %}

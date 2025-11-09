@@ -19,6 +19,11 @@
       <strong>${{ total|floatformat:0 }}</strong>
     </div>
     <hr>
-    <button class="btn btn-success mt-2" disabled>Pago (pendiente de integrar)</button>
+    <form action="{% url 'tienda:webpay_iniciar' %}" method="POST"> 
+      {% csrf_token %}
+        <button type="submit" class="btn btn-success mt-2 w-100 py-2 fs-5">
+            Pagar con Webpay <i class="bi bi-credit-card-2-front-fill ms-2"></i>
+        </button>
+    </form>
   </div>
 {% endblock %}
