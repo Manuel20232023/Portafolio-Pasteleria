@@ -290,14 +290,13 @@ def webpay_iniciar(request):
         return redirect('tienda:checkout')
 
 # No usamos @login_required aquí porque a veces la sesión se pierde brevemente en el retorno
+# No usamos @login_required aquí porque a veces la sesión se pierde brevemente en el retorno de Webpay
 def webpay_retorno(request):
-    """ Recibe la respuesta de Transbank, valida y confirma el pedido """
-    # Webpay retorna el token por GET (o POST a veces, pero standard es GET en SDK moderno)
+    """ Recibe la respuesta de Transbank, valida, confirma el pedido y envía correos """
     token = request.GET.get('token_ws') or request.POST.get('token_ws')
     pedido_id = request.session.get('pedido_webpay_id')
 
     if not token or not pedido_id:
-        # Caso: el usuario anuló la compra en el formulario Webpay
         if pedido_id:
              pedido = Pedido.objects.get(id=pedido_id)
              pedido.estado = 'anulado'
@@ -306,22 +305,22 @@ def webpay_retorno(request):
         return redirect('tienda:carrito')
 
     try:
-        # 1. Confirmar la transacción con Transbank
         tx = Transaction()
-        response = tx.commit(token) # Aquí Transbank nos dice si pasó o no
-        
+        response = tx.commit(token)
         status = response.get('status')
         pedido = Pedido.objects.get(id=pedido_id)
 
         if status == 'AUTHORIZED' and response.get('response_code') == 0:
-            # --- PAGO EXITOSO ---
+            # --- 1. PAGO EXITOSO: Guardar en BD ---
             pedido.estado = 'pagado'
             pedido.save()
 
-            # Movemos los items del carrito a la tabla DetallePedido
             carrito = _get_carrito(request)
+            detalle_texto = "" # Variable para guardar el listado de productos para el correo
+
             for item_data in carrito.values():
                 producto = Producto.objects.get(id=int(item_data['id']))
+                # Guardar detalle en BD
                 DetallePedido.objects.create(
                     pedido=pedido,
                     producto=producto,
@@ -332,9 +331,56 @@ def webpay_retorno(request):
                 if producto.stock >= item_data['cantidad']:
                      producto.stock -= item_data['cantidad']
                      producto.save()
+                
+                # Agregar al texto del correo
+                detalle_texto += f"• {item_data['cantidad']} x {producto.nombre} - ${int(item_data['precio']) * int(item_data['cantidad'])}\n"
 
-            # Vaciar carrito
-            _save_carrito(request, {})
+            # --- 2. ENVIAR CORREOS ---
+            # a) Correo al CLIENTE
+            asunto_cliente = f'✅ ¡Tu pedido #{pedido.id} está confirmado! - Sweet Blessing'
+            mensaje_cliente = f"""Hola {pedido.usuario.first_name},
+
+¡Muchas gracias por tu compra! Hemos recibido tu pedido correctamente.
+
+Detalle de tu pedido #{pedido.id}:
+-----------------------------------
+{detalle_texto}
+-----------------------------------
+TOTAL PAGADO: ${pedido.total}
+
+Nos pondremos en contacto contigo pronto para coordinar.
+¡Que disfrutes tus dulces!
+
+Atte,
+El equipo de Sweet Blessing
+"""
+            send_mail(asunto_cliente, mensaje_cliente, settings.DEFAULT_FROM_EMAIL, [pedido.usuario.email], fail_silently=True)
+
+            # b) Correo a DENNISSE (Admin)
+            # Usamos el mismo email configurado en settings como destinatario admin por ahora
+            asunto_admin = f'💰 NUEVA VENTA - Pedido #{pedido.id}'
+            mensaje_admin = f"""¡Hola Dennisse! Tienes una nueva venta confirmada.
+
+Datos del Cliente:
+------------------
+Nombre: {pedido.usuario.get_full_name()}
+Email: {pedido.usuario.email}
+Teléfono: {pedido.usuario.perfil.telefono}
+
+Detalle del Pedido #{pedido.id}:
+-----------------------------------
+{detalle_texto}
+-----------------------------------
+TOTAL: ${pedido.total}
+Tipo de entrega: {pedido.get_tipo_entrega_display()}
+"""
+            if pedido.tipo_entrega == 'despacho':
+                mensaje_admin += f"Dirección de despacho: {pedido.direccion}\n"
+
+            send_mail(asunto_admin, mensaje_admin, settings.DEFAULT_FROM_EMAIL, [settings.DEFAULT_FROM_EMAIL], fail_silently=True)
+
+            # --- 3. FINALIZAR ---
+            _save_carrito(request, {}) # Vaciar carrito
             del request.session['pedido_webpay_id']
             
             messages.success(request, f"¡Pago exitoso! Pedido #{pedido.id} confirmado.")
@@ -347,5 +393,5 @@ def webpay_retorno(request):
             return redirect('tienda:checkout')
 
     except TransbankError as e:
-        messages.error(request, "Ocurrió un error al validar la transacción.")
+        messages.error(request, f"Error en la transacción: {e.message}")
         return redirect('tienda:checkout')
