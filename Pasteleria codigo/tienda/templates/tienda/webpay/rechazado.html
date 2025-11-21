@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pago Rechazado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 40px;
+            text-align: center;
+        }
+        .container {
+            background: #ffffff;
+            border: 2px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 500px;
+            margin: auto;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #721c24;
+            color: white;
+            padding: 12px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background: #501116;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>❌ Pago Rechazado</h2>
+    <p>Lo sentimos, la transacción no pudo ser procesada.</p>
+    <p>Es posible que el banco haya rechazado el pago o haya ocurrido un error con la conexión.</p>
+
+    <a href="{% url 'tienda:productos' %}" class="btn">Volver a la tienda</a>
+</div>
+
+</body>
+</html>
