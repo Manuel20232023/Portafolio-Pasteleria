@@ -1,0 +1,49 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% load form_filters %}
+{% block title %}Iniciar sesión - Sweet Blessing{% endblock %}
+
+{% block extra_head %}
+<style>
+  body { background-color: #ffe6f0; }
+  .card { border: none; border-radius: 1rem; }
+  .btn-primary { background-color: #ff66b3; border-color: #ff66b3; }
+  .btn-primary:hover { background-color: #ff4da6; border-color: #ff4da6; }
+  label { font-weight: 500; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-body p-4">
+          <h3 class="mb-4 text-center fw-bold text-dark"> 🧁 Iniciar sesión 🧁 </h3>
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            
+            <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Correo electrónico</label>
+                {{ form.username }} {{ form.username.errors }}
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.password.id_for_label }}">Contraseña</label>
+              {{ form.password|add_class:"form-control" }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Entrar</button>
+          </form>
+
+          <div class="d-flex justify-content-between mt-3">
+            <a href="{% url 'tienda:registro' %}" class="text-decoration-none text-dark">Crear cuenta</a>
+            <a href="{% url 'tienda:password_reset' %}" class="text-decoration-none text-dark">¿Olvidaste tu contraseña?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

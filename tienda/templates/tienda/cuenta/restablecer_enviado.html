@@ -1,0 +1,23 @@
+{% extends 'tienda/base_store.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4 text-center">
+                <div class="mb-4">
+                    <i class="bi bi-envelope-check text-success" style="font-size: 4rem;"></i>
+                </div>
+                <h3 class="mb-3">¡Revisa tu correo! 📧</h3>
+                <p class="text-muted">
+                    Hemos enviado un enlace a tu dirección de correo electrónico para que puedas restablecer tu contraseña.
+                </p>
+                <p class="small text-muted">
+                    Si no lo recibes en unos minutos, revisa tu carpeta de spam.
+                </p>
+                <a href="{% url 'tienda:home' %}" class="btn btn-outline-primary mt-3">Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

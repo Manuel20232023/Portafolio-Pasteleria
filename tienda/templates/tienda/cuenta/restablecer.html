@@ -1,0 +1,27 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% load form_filters %}
+{% block title %}Restablecer contraseña - Sweet Blessing{% endblock %}
+
+{% block extra_head %}
+<style>
+  body { background-color: #ffe6f0; }
+  .card { border: none; border-radius: 1rem; }
+  .btn-primary { background-color: #ff66b3; border-color: #ff66b3; }
+  .btn-primary:hover { background-color: #ff4da6; border-color: #ff4da6; }
+  label { font-weight: 500; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Restablecer contraseña</h2>
+    <p>Ingresa tu correo y te enviaremos un enlace para restablecer la contraseña.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Enviar enlace</button>
+    </form>
+</div>
+{% endblock %}

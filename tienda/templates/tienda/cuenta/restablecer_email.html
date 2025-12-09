@@ -1,0 +1,13 @@
+{% autoescape off %}
+Hola,
+
+Solicitaste restablecer tu contraseña de Sweet Blessing.
+
+Para continuar, haz clic en este enlace:
+
+{{ protocol }}://{{ domain }}{% url 'tienda:password_reset_confirm' uidb64=uid token=token %}
+
+Si tú no solicitaste esto, puedes ignorar este mensaje.
+
+Sweet Blessing 🍰
+{% endautoescape %}

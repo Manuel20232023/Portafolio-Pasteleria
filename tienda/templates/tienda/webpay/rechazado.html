@@ -1,0 +1,100 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% block title %}Pago rechazado - Sweet Blessing{% endblock %}
+
+{% block extra_head %}
+<style>
+  .wp-box {
+    background-color: #fff3e6;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(255, 157, 77, 0.3);
+    animation: fadeIn 0.7s ease-in-out;
+  }
+  .wp-icon {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+  }
+  .wp-title {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #d97706;
+    margin-bottom: 12px;
+  }
+  .wp-text {
+    color: #555;
+    margin-bottom: 8px;
+  }
+  .wp-reason {
+    background: #fff;
+    border-left: 4px solid #d97706;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 18px 0 10px;
+    color: #92400e;
+    font-size: 0.97rem;
+  }
+  .wp-small {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  .wp-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: #ff8c42;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-right: 10px;
+    transition: 0.25s;
+  }
+  .wp-btn:hover {
+    background: #ff731d;
+    transform: scale(1.05);
+  }
+  .wp-btn-secondary {
+    background: #ff66a3;
+  }
+  .wp-btn-secondary:hover {
+    background: #ff3385;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wp-box">
+  <div class="wp-icon">⚠️</div>
+  <h1 class="wp-title">Pago rechazado</h1>
+
+  <p class="wp-text">
+    Webpay rechazó la transacción. Tu compra aún no se ha realizado.
+  </p>
+
+  {% if motivo %}
+    <div class="wp-reason">
+      {{ motivo }}
+    </div>
+  {% endif %}
+
+  <p class="wp-small">
+    Si el problema persiste, intenta con otra tarjeta o comunícate con tu banco.
+  </p>
+
+  <a href="{% url 'tienda:checkout' %}" class="wp-btn">
+    Intentar pagar nuevamente
+  </a>
+  <a href="{% url 'tienda:carrito' %}" class="wp-btn wp-btn-secondary">
+    Ver carrito
+  </a>
+</div>
+{% endblock %}

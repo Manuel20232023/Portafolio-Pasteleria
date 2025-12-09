@@ -1,0 +1,49 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% block title %}Checkout - Sweet Blessing{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Checkout</h2>
+
+<div class="card mb-4">
+  <div class="card-header">
+    Resumen
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for pid, item in carrito.items %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>
+          {{ item.nombre }} x {{ item.cantidad }}
+          {% if item.tiene_promo %}
+            <span class="badge bg-success ms-2">Promo: {{ item.etiqueta_promo }}</span>
+          {% endif %}
+        </span>
+
+        <span class="text-end">
+          {# mostrar precio normal tachado + precio con promo #}
+          {% if item.descuento and item.descuento > 0 %}
+            <span class="text-muted text-decoration-line-through d-block">
+              ${{ item.subtotal_base|floatformat:0 }}
+            </span>
+            <strong>${{ item.subtotal|floatformat:0 }}</strong>
+          {% else %}
+            <strong>${{ item.subtotal|floatformat:0 }}</strong>
+          {% endif %}
+        </span>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h4 class="mb-0">Total:</h4>
+  <h4 class="mb-0">${{ total|floatformat:0 }}</h4>
+</div>
+
+<form method="post" action="{% url 'tienda:webpay_iniciar' %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-lg btn-primary w-100">
+    Pagar con Webpay 💳
+  </button>
+</form>
+{% endblock %}

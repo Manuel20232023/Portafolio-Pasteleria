@@ -1,0 +1,83 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% block title %}Pago Exitoso - Sweet Blessing{% endblock %}
+
+{% block extra_head %}
+<style>
+  .success-container {
+    background-color: #ffe6f0;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+    animation: fadeIn 1s ease-in-out;
+  }
+  .success-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ff3385;
+    margin-bottom: 20px;
+  }
+  .success-icon {
+    font-size: 4rem;
+    color: #ff66a3;
+    margin-bottom: 10px;
+  }
+  .order-info {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    color: #333;
+    box-shadow: 0 2px 6px rgba(255, 182, 193, 0.3);
+  }
+  .order-info strong {
+    color: #ff3385;
+  }
+  .btn-return {
+    display: inline-block;
+    margin-top: 25px;
+    background: #ff66a3;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .btn-return:hover {
+    background: #ff3385;
+    transform: scale(1.05);
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="success-container">
+  <div class="success-icon">🎉</div>
+  <h1 class="success-title">¡Pago Exitoso!</h1>
+
+  <div class="order-info">
+    <p><strong>Orden N°:</strong> {{ pedido.id }}</p>
+    <p><strong>Monto total:</strong> ${{ pedido.total|floatformat:0 }}</p>
+    <p><strong>Código de autorización:</strong> {{ response.authorization_code }}</p>
+    <p><strong>Estado del pago:</strong> {{ response.status|capfirst }}</p>
+  </div>
+
+  <p class="mt-4" style="color:#555;">
+    Gracias por tu compra 💖 Tu pedido está siendo preparado con cariño.
+  </p>
+
+  <a href="{% url 'tienda:productos' %}" class="btn-return">
+    🧁 Seguir comprando
+  </a>
+</div>
+{% endblock %}

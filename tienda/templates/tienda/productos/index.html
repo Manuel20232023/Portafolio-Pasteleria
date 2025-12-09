@@ -1,0 +1,97 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% block title %}Productos - Sweet Blessing{% endblock %}
+
+{% block extra_head %}
+<style>
+  .cat-img {
+    height: 180px;
+    object-fit: cover;
+  }
+  .cat-card:hover {
+    transform: translateY(-2px);
+    transition: transform .15s ease-in-out;
+  }
+  .promo-card {
+    background: #fff0f5;
+    border: 1px solid #ffb6c1;
+  }
+  .promo-card h5 { color: #ff1a75; }
+</style>
+{% endblock %}
+
+{% block content %}
+  <h2 class="mb-3">Elige una categoría</h2>
+
+  <div class="row g-3 mb-5">
+    {% for slug, nombre in categorias.items %}
+      <div class="col-md-4">
+        <a class="text-decoration-none" href="{% url 'tienda:productos_categoria' slug %}">
+          <div class="card h-100 shadow-sm cat-card">
+            <img
+              src="{% static 'tienda/img/categorias/' %}{{ slug }}.jpg"
+              class="card-img-top cat-img"
+              alt="{{ nombre }}"
+            >
+            <div class="card-body text-center">
+              <h5 class="mb-0">{{ nombre }}</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <p>No hay categorías disponibles.</p>
+    {% endfor %}
+  </div>
+
+  <h3 class="mb-3 text-center">🎉 Promociones Activas 🎉</h3>
+  <div class="row g-3 mb-4">
+    {% for promo in promociones %}
+      <div class="col-md-4">
+        <div class="card promo-card shadow-sm h-100 position-relative">
+          {% if promo.etiqueta %}
+            <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+              {{ promo.etiqueta }}
+            </span>
+          {% endif %}
+
+          {% if promo.imagen %}
+            <img src="{{ promo.imagen.url }}" class="card-img-top" alt="{{ promo.titulo }}">
+          {% endif %}
+
+          <div class="card-body text-center d-flex flex-column">
+            <h5 class="card-title">{{ promo.titulo }}</h5>
+
+            {% if promo.descripcion %}
+              <p class="card-text">{{ promo.descripcion }}</p>
+            {% endif %}
+
+            {% if promo.vigencia %}
+              <p class="text-muted small mb-2">{{ promo.vigencia }}</p>
+            {% endif %}
+
+            {# Botón según lo que tenga la promo #}
+            {% if promo.enlace_categoria %}
+              <a href="{% url 'tienda:productos_categoria' promo.enlace_categoria %}"
+                 class="btn btn-primary mt-auto">
+                Ver productos en oferta
+              </a>
+            {% elif promo.producto %}
+              <a href="{% url 'tienda:producto_detalle' promo.producto.id %}"
+                 class="btn btn-primary mt-auto">
+                Ver producto en oferta
+              </a>
+            {% else %}
+              <a href="{% url 'tienda:productos' %}"
+                 class="btn btn-outline-primary mt-auto">
+                Ver catálogo
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center mb-4">No hay promociones disponibles en este momento.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

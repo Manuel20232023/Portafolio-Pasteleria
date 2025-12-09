@@ -1,0 +1,57 @@
+{% extends 'tienda/base_store.html' %}
+{% load static %}
+{% block title %}{{ producto.nombre }} - Sweet Blessing{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <button onclick="window.close();" class="btn btn-outline-secondary mb-4 d-none d-md-inline-block">
+        <i class="bi bi-x-lg"></i> Cerrar pestaña
+    </button>
+    <a href="javascript:history.back()" class="btn btn-outline-secondary mb-4 d-md-none">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" class="card-img-top rounded" alt="{{ producto.nombre }}" style="object-fit: cover; max-height: 500px;">
+                {% else %}
+                    <img src="{% static 'tienda/img/no-image.jpg' %}" class="card-img-top rounded" alt="Sin imagen">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="ps-lg-4">
+                <div class="mb-3">
+                    <span class="badge bg-secondary text-uppercase">{{ producto.get_categoria_display }}</span>
+                    {% if producto.stock > 0 %}
+                        <span class="badge bg-success">En Stock ({{ producto.stock }})</span>
+                    {% else %}
+                        <span class="badge bg-danger">Agotado</span>
+                    {% endif %}
+                </div>
+
+                <h1 class="fw-bold">{{ producto.nombre }}</h1>
+                <h2 class="text-primary my-4">${{ producto.precio }}</h2>
+
+                <div class="mb-5">
+                    <h5 class="text-muted mb-3">Descripción del producto:</h5>
+                    <p class="fs-5" style="white-space: pre-line;">{{ producto.descripcion|default:"Sin descripción detallada." }}</p>
+                </div>
+
+                <div class="d-grid">
+                    {% if producto.stock > 0 %}
+                        <a href="{% url 'tienda:carrito_agregar' producto.id %}" class="btn btn-primary btn-lg py-3">
+                            <i class="bi bi-cart-plus me-2"></i> Agregar al Carrito
+                        </a>
+                    {% else %}
+                        <button class="btn btn-secondary btn-lg py-3" disabled>No disponible</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
